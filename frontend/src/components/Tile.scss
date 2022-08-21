@@ -6,6 +6,28 @@
   border: solid 1px #555;
   width: $tile-size;
   height: $tile-size;
+
+  &.block-type-i {
+    background-color: deepskyblue;
+  }
+  &.block-type-o {
+    background-color: yellow;
+  }
+  &.block-type-s {
+    background-color: mediumseagreen;
+  }
+  &.block-type-z {
+    background-color: red;
+  }
+  &.block-type-j {
+    background-color: royalblue;
+  }
+  &.block-type-l {
+    background-color: goldenrod;
+  }
+  &.block-type-t {
+    background-color: blueviolet;
+  }
 }
 
 .TileLine {
