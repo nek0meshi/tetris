@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Block } from '../features/blocks';
+import { Block, getNextBlock } from '../features/blocks';
 
 const DUMMY_BLOCKS: Block[] = [
   { x: 1, y: 1, type: 'i' },
@@ -11,11 +11,18 @@ const DUMMY_BLOCKS: Block[] = [
   { x: 7, y: 2, type: 't' },
 ];
 
-const useBlocks = () => {
+const useBlocks = (boardWidth: number, boardHeight: number) => {
   const [blocks] = useState(DUMMY_BLOCKS);
+  const [fallingBlock, setFallingBlock] = useState<Block | null>(null);
+
+  const nextStep = () => {
+    setFallingBlock(getNextBlock(fallingBlock, boardWidth, boardHeight));
+  };
 
   return {
     blocks,
+    fallingBlock,
+    nextStep,
   };
 };
 
