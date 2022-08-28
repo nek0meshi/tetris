@@ -145,7 +145,8 @@ export const getTiles = (block: Block) => {
 export const getNextBlock = (
   fallingBlock: Block | null,
   boardWidth: number,
-  boardHeight: number
+  boardHeight: number,
+  blocks: Block[]
 ): Block | null => {
   if (fallingBlock === null) {
     // 新しいブロックを作成する.
@@ -158,16 +159,28 @@ export const getNextBlock = (
     };
   }
 
-  if (fallingBlock.y === 0) {
-    // TODO: 既存のブロックに接したことを判定する.
+  if (
+    Math.min(
+      ...getTiles(fallingBlock).map((item) => item[1] + fallingBlock.y)
+    ) <= 0
+  ) {
+    // 既に最下段にいる場合.
     return null;
   }
 
   // ブロックを一段下に落とす.
-  return {
+  const nextBlock = {
     ...fallingBlock,
     y: fallingBlock.y - 1,
   };
+
+  for (const tile of getTiles(nextBlock)) {
+    if (findBlock(blocks, tile[0] + nextBlock.x, tile[1] + nextBlock.y)) {
+      return null;
+    }
+  }
+
+  return nextBlock;
 };
 
 export const turnOnce = (
@@ -194,7 +207,8 @@ export const turn = (
 export const moveBlock = (
   block: Block,
   move: MoveType,
-  boardWidth: number
+  boardWidth: number,
+  blocks: Block[]
 ): Block | null => {
   const movedBlock = (() => {
     switch (move) {
@@ -219,7 +233,15 @@ export const moveBlock = (
   const tilesX = getTiles(movedBlock).map(([x]) => x + movedBlock.x);
 
   // 移動先が不正ならnullを返却する.
-  return Math.min(...tilesX) < 0 || Math.max(...tilesX) >= boardWidth
-    ? null
-    : movedBlock;
+  if (Math.min(...tilesX) < 0 || Math.max(...tilesX) >= boardWidth) {
+    return null;
+  }
+
+  for (const tile of getTiles(movedBlock)) {
+    if (findBlock(blocks, tile[0] + movedBlock.x, tile[1] + movedBlock.y)) {
+      return null;
+    }
+  }
+
+  return movedBlock;
 };
