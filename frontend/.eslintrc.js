@@ -8,7 +8,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
   ],
-  overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -16,4 +15,19 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {},
+  overrides: [
+    {
+      files: ['.eslintrc.js'],
+      env: {
+        node: true,
+      },
+    },
+    {
+      files: ['*.tsx'],
+      rules: {
+        'react/jsx-uses-react': 'off',
+        'react/react-in-jsx-scope': 'off',
+      },
+    },
+  ],
 };
