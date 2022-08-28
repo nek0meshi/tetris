@@ -20,6 +20,10 @@ export type BlockShapeType = Readonly<{
   }>;
 }>;
 
+export type MoveType = 'left' | 'right' | 'turn';
+
+export type Turn = 0 | 1 | 2 | 3;
+
 export const BLOCK_TYPES: Readonly<BlockType[]> = [
   'i',
   'o',
@@ -115,7 +119,7 @@ export const findBlock = (
   y: number
 ): Block | undefined => {
   for (const block of blocks) {
-    for (const shape of BLOCK_SHAPES[block.type].tyles) {
+    for (const shape of BLOCK_SHAPES[block.type].tiles) {
       if (x === block.x + shape[0] && y === block.y + shape[1]) {
         return block;
       }
@@ -149,3 +153,10 @@ export const getNextBlock = (
     y: fallingBlock.y - 1,
   };
 };
+
+export const turnOnce = (
+  x: number,
+  y: number,
+  centerX: number,
+  centerY: number
+) => [centerX + y - centerY, centerY - (x - centerX)];
