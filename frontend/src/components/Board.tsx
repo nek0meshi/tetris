@@ -8,7 +8,7 @@ const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
 
 function Board() {
-  const { blocks, fallingBlock, nextStep } = useBlocks(
+  const { blocks, fallingBlock, nextStep, move } = useBlocks(
     BOARD_WIDTH,
     BOARD_HEIGHT
   );
@@ -31,10 +31,30 @@ function Board() {
   ));
 
   useEffect(() => {
-    window.addEventListener('keydown', nextStep);
+    const keyEventHandler = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+        case 'h':
+          move('left');
+          break;
+        case 'ArrowRight':
+        case 'l':
+          move('right');
+          break;
+        case 'ArrowUp':
+        case 'k':
+          move('turn');
+          break;
+        case ' ':
+        case 'ArrowDown':
+          nextStep();
+          break;
+      }
+    };
+    window.addEventListener('keydown', keyEventHandler);
 
     return () => {
-      window.removeEventListener('keydown', nextStep);
+      window.removeEventListener('keydown', keyEventHandler);
     };
   });
 
