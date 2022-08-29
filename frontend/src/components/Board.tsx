@@ -3,6 +3,7 @@ import './Board.scss';
 import { COLOR_NAME, findBlock } from '../features/blocks';
 import useBlocks from '../hooks/useBlocks';
 import { useEffect } from 'react';
+import useTimer from '../hooks/useTimer';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
@@ -12,6 +13,9 @@ function Board() {
     BOARD_WIDTH,
     BOARD_HEIGHT
   );
+
+  useTimer(nextStep);
+
   const blocksOnBoard = [
     ...blocks,
     ...(fallingBlock === null ? [] : [fallingBlock]),
