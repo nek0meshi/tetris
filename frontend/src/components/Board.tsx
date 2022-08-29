@@ -2,8 +2,8 @@ import Tile from './Tile';
 import './Board.scss';
 import { COLOR_NAME, findBlock } from '../features/blocks';
 import useBlocks from '../hooks/useBlocks';
-import { useEffect } from 'react';
 import useTimer from '../hooks/useTimer';
+import useKeyHandler from '../hooks/useKeyHandler';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
@@ -15,6 +15,8 @@ function Board() {
   );
 
   useTimer(nextStep);
+
+  useKeyHandler(nextStep, move);
 
   const blocksOnBoard = [
     ...blocks,
@@ -33,34 +35,6 @@ function Board() {
       {createLine(i)}
     </div>
   ));
-
-  useEffect(() => {
-    const keyEventHandler = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-        case 'h':
-          move('left');
-          break;
-        case 'ArrowRight':
-        case 'l':
-          move('right');
-          break;
-        case 'ArrowUp':
-        case 'k':
-          move('turn');
-          break;
-        case ' ':
-        case 'ArrowDown':
-          nextStep();
-          break;
-      }
-    };
-    window.addEventListener('keydown', keyEventHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keyEventHandler);
-    };
-  });
 
   return (
     <div className="Board">
