@@ -7,6 +7,12 @@ export type Block = {
   type: BlockType;
 };
 
+export type Tile = {
+  x: number;
+  y: number;
+  type: BlockType;
+};
+
 export type BlockShapeType = Readonly<{
   [key in BlockType]: Readonly<{
     tiles: Readonly<
@@ -111,42 +117,31 @@ export const COLOR_NAME = {
   t: 'block-type-t',
 } as const;
 
-/**
- * x, yで指定されるタイルにブロックが存在する場合は、それを返却する.
- */
-export const findBlock = (
-  blocks: Block[],
-  x: number,
-  y: number
-): Block | undefined => {
-  for (const block of blocks) {
-    for (const tile of getTiles(block)) {
-      if (x === block.x + tile[0] && y === block.y + tile[1]) {
-        return block;
-      }
-    }
-  }
-};
-
-export const getTiles = (block: Block) => {
+export const getTiles = (block: Block): Tile[] => {
   const blockShape = BLOCK_SHAPES[block.type];
 
-  return blockShape.tiles.map((tile) =>
-    turn(
-      tile[0],
-      tile[1],
-      blockShape.center[0],
-      blockShape.center[1],
-      block.turn
+  return blockShape.tiles
+    .map((tile) =>
+      turn(
+        tile[0],
+        tile[1],
+        blockShape.center[0],
+        blockShape.center[1],
+        block.turn
+      )
     )
-  );
+    .map(([x, y]) => ({
+      x: block.x + x,
+      y: block.y + y,
+      type: block.type,
+    }));
 };
 
 export const getNextBlock = (
   fallingBlock: Block | null,
   boardWidth: number,
   boardHeight: number,
-  blocks: Block[]
+  tiles: Tile[]
 ): Block | null => {
   if (fallingBlock === null) {
     // 新しいブロックを作成する.
@@ -159,11 +154,7 @@ export const getNextBlock = (
     };
   }
 
-  if (
-    Math.min(
-      ...getTiles(fallingBlock).map((item) => item[1] + fallingBlock.y)
-    ) <= 0
-  ) {
+  if (Math.min(...getTiles(fallingBlock).map((tile) => tile.y)) <= 0) {
     // 既に最下段にいる場合.
     return null;
   }
@@ -174,9 +165,12 @@ export const getNextBlock = (
     y: fallingBlock.y - 1,
   };
 
+  // 既にタイルがある場合は不正値なのでnullを返す.
   for (const tile of getTiles(nextBlock)) {
-    if (findBlock(blocks, tile[0] + nextBlock.x, tile[1] + nextBlock.y)) {
-      return null;
+    for (const t of tiles) {
+      if (tile.x == t.x && tile.y == t.y) {
+        return null;
+      }
     }
   }
 
@@ -208,7 +202,7 @@ export const moveBlock = (
   block: Block,
   move: MoveType,
   boardWidth: number,
-  blocks: Block[]
+  tiles: Tile[]
 ): Block | null => {
   const movedBlock = (() => {
     switch (move) {
@@ -230,16 +224,19 @@ export const moveBlock = (
     }
   })();
 
-  const tilesX = getTiles(movedBlock).map(([x]) => x + movedBlock.x);
+  const tilesX = getTiles(movedBlock).map(({ x }) => x);
 
   // 移動先が不正ならnullを返却する.
   if (Math.min(...tilesX) < 0 || Math.max(...tilesX) >= boardWidth) {
     return null;
   }
 
+  // 既にタイルがある場合は不正値なのでnullを返す.
   for (const tile of getTiles(movedBlock)) {
-    if (findBlock(blocks, tile[0] + movedBlock.x, tile[1] + movedBlock.y)) {
-      return null;
+    for (const t of tiles) {
+      if (tile.x == t.x && tile.y == t.y) {
+        return null;
+      }
     }
   }
 
