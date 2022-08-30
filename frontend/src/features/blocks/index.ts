@@ -242,3 +242,28 @@ export const moveBlock = (
 
   return movedBlock;
 };
+
+export const getCompletedRows = (
+  tiles: Tile[],
+  boardWidth: number
+): number[] => {
+  // 行一覧
+  return (
+    Array.from(new Set(tiles.map(({ y }) => y)))
+      // 行のブロック数 = 列数
+      .filter((y) => tiles.filter((tile) => tile.y === y).length === boardWidth)
+  );
+};
+
+export const deleteRows = (tiles: Tile[], rows: number[]): Tile[] => {
+  return (
+    tiles
+      // 対象の行の削除
+      .filter(({ y }) => !rows.includes(y))
+      // 自身より下の行について、削除した分ブロックを下に落とす
+      .map((tile) => ({
+        ...tile,
+        y: tile.y - rows.filter((row) => row < tile.y).length,
+      }))
+  );
+};

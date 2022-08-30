@@ -4,6 +4,8 @@ import {
   MoveType,
   getNextBlock,
   moveBlock,
+  getCompletedRows,
+  deleteRows,
   Tile,
   getTiles,
 } from '../features/blocks';
@@ -21,7 +23,15 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
     );
 
     if (movedBlock === null && fallingBlock != null) {
-      setTiles([...tiles, ...getTiles(fallingBlock)]);
+      let nextTiles = [...tiles, ...getTiles(fallingBlock)];
+
+      const completedRows = getCompletedRows(nextTiles, boardWidth);
+
+      if (completedRows.length) {
+        nextTiles = deleteRows(nextTiles, completedRows);
+      }
+
+      setTiles(nextTiles);
     }
 
     setFallingBlock(movedBlock);
