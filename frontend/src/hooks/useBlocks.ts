@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { Block, MoveType, getNextBlock, moveBlock } from '../features/blocks';
+import {
+  Block,
+  MoveType,
+  getNextBlock,
+  moveBlock,
+  Tile,
+  getTiles,
+} from '../features/blocks';
 
 const useBlocks = (boardWidth: number, boardHeight: number) => {
-  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [tiles, setTiles] = useState<Tile[]>([]);
   const [fallingBlock, setFallingBlock] = useState<Block | null>(null);
 
   const nextStep = () => {
@@ -10,11 +17,11 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
       fallingBlock,
       boardWidth,
       boardHeight,
-      blocks
+      tiles
     );
 
-    if (movedBlock === null) {
-      setBlocks([...blocks, fallingBlock as Block]);
+    if (movedBlock === null && fallingBlock != null) {
+      setTiles([...tiles, ...getTiles(fallingBlock)]);
     }
 
     setFallingBlock(movedBlock);
@@ -26,12 +33,12 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
     }
 
     setFallingBlock(
-      moveBlock(fallingBlock, m, boardWidth, blocks) || fallingBlock
+      moveBlock(fallingBlock, m, boardWidth, tiles) || fallingBlock
     );
   };
 
   return {
-    blocks,
+    tiles,
     fallingBlock,
     nextStep,
     move,
