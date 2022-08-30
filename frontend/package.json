@@ -19,9 +19,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "PUBLIC_URL='https://nek0meshi.github.io/tetris' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "gh-pages": "npm run build && npm run gh-pages:clean && npm run gh-pages:mv",
+    "gh-pages:mv": "mv build ../docs",
+    "gh-pages:clean": "rm -rf ../docs",
     "lint": "npm run eslint && npm run prettier",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
     "prettier": "prettier -c .",
