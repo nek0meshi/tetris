@@ -1,15 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { MoveType } from '../features/blocks';
 
-const useKeyHandler = (nextStep: () => void, move: (m: MoveType) => void) => {
+const useKeyHandler = (
+  nextStep: () => void,
+  move: (m: MoveType) => void,
+  fall: () => void
+) => {
   const refNextStep = useRef(nextStep);
   const refMove = useRef(move);
+  const refFall = useRef(fall);
   useEffect(() => {
     refNextStep.current = nextStep;
   }, [nextStep]);
   useEffect(() => {
     refMove.current = move;
   }, [move]);
+  useEffect(() => {
+    refFall.current = fall;
+  }, [fall]);
 
   useEffect(() => {
     const keyEventHandler = (e: KeyboardEvent) => {
@@ -26,9 +34,11 @@ const useKeyHandler = (nextStep: () => void, move: (m: MoveType) => void) => {
         case 'k':
           refMove.current('turn');
           break;
-        case ' ':
         case 'ArrowDown':
           refNextStep.current();
+          break;
+        case ' ':
+          refFall.current();
           break;
       }
     };

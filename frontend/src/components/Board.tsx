@@ -9,14 +9,14 @@ const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
 
 function Board() {
-  const { tiles, fallingBlock, nextStep, move } = useBlocks(
+  const { tiles, fallingBlock, nextStep, move, fall } = useBlocks(
     BOARD_WIDTH,
     BOARD_HEIGHT
   );
 
   useTimer(nextStep);
 
-  useKeyHandler(nextStep, move);
+  useKeyHandler(nextStep, move, fall);
 
   const tilesOnBoard = [
     ...tiles,
