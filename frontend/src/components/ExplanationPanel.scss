@@ -1,0 +1,13 @@
+@import '../constants.scss';
+
+.ExplanationPanel {
+  width: 220px;
+  border: solid 1px $border-color;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: left;
+
+  .subtitle {
+    text-align: center;
+  }
+}
