@@ -1,3 +1,4 @@
+import GameOver from './GameOver';
 import Tile from './Tile';
 import './Board.scss';
 import { COLOR_NAME, getTiles } from '../features/blocks';
@@ -38,8 +39,11 @@ function Board() {
     </div>
   ));
 
+  const isGameOvered = false;
+
   return (
     <div className="Board">
+      {isGameOvered ? <GameOver /> : null}
       <div className="lines-container">{lines}</div>
     </div>
   );
