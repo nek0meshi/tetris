@@ -1,0 +1,13 @@
+@import '../constants.scss';
+
+.Tile {
+  display: inline-block;
+  margin: 1px;
+  border: solid 1px #555;
+  width: $tile-size;
+  height: $tile-size;
+}
+
+.TileLine {
+  line-height: 0;
+}
