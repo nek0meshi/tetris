@@ -20,6 +20,10 @@ export type BlockShapeType = Readonly<{
   }>;
 }>;
 
+export type MoveType = 'left' | 'right' | 'turn';
+
+export type Turn = 0 | 1 | 2 | 3;
+
 export const BLOCK_TYPES: Readonly<BlockType[]> = [
   'i',
   'o',
@@ -149,3 +153,10 @@ export const getNextBlock = (
     y: fallingBlock.y - 1,
   };
 };
+
+export const turnOnce = (
+  x: number,
+  y: number,
+  centerX: number,
+  centerY: number
+) => [centerX + y - centerY, centerY - (x - centerX)];
