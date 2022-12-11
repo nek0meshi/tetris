@@ -1,6 +1,6 @@
 import Tile from './Tile';
 import './Board.scss';
-import { COLOR_NAME, findBlock } from '../features/blocks';
+import { COLOR_NAME, getTiles } from '../features/blocks';
 import useBlocks from '../hooks/useBlocks';
 import useTimer from '../hooks/useTimer';
 import useKeyHandler from '../hooks/useKeyHandler';
@@ -9,7 +9,7 @@ const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
 
 function Board() {
-  const { blocks, fallingBlock, nextStep, move } = useBlocks(
+  const { tiles, fallingBlock, nextStep, move } = useBlocks(
     BOARD_WIDTH,
     BOARD_HEIGHT
   );
@@ -18,13 +18,15 @@ function Board() {
 
   useKeyHandler(nextStep, move);
 
-  const blocksOnBoard = [
-    ...blocks,
-    ...(fallingBlock === null ? [] : [fallingBlock]),
+  const tilesOnBoard = [
+    ...tiles,
+    ...(fallingBlock === null ? [] : getTiles(fallingBlock)),
   ];
   const createTile = (x: number, y: number) => {
-    const block = findBlock(blocksOnBoard, x, y);
-    const classNames = [block ? COLOR_NAME[block.type] : ''];
+    const blockType = tilesOnBoard.find(
+      (tile) => tile.x === x && tile.y === y
+    )?.type;
+    const classNames = [blockType ? COLOR_NAME[blockType] : ''];
 
     return <Tile key={y + BOARD_WIDTH * x} classNames={classNames} />;
   };
