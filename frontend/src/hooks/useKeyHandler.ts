@@ -35,6 +35,7 @@ const useKeyHandler = (
           refMove.current('turn');
           break;
         case 'ArrowDown':
+        case 'j':
           refNextStep.current();
           break;
         case ' ':

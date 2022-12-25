@@ -8,25 +8,25 @@
   height: $tile-size;
 
   &.block-type-i {
-    background-color: deepskyblue;
+    background-color: $color-1;
   }
   &.block-type-o {
-    background-color: yellow;
+    background-color: $color-2;
   }
   &.block-type-s {
-    background-color: mediumseagreen;
+    background-color: $color-3;
   }
   &.block-type-z {
-    background-color: red;
+    background-color: $color-4;
   }
   &.block-type-j {
-    background-color: royalblue;
+    background-color: $color-5;
   }
   &.block-type-l {
-    background-color: goldenrod;
+    background-color: $color-6;
   }
   &.block-type-t {
-    background-color: blueviolet;
+    background-color: $color-7;
   }
 }
 
