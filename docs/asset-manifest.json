@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://nek0meshi.github.io/tetris/static/css/main.be25325d.css",
+    "main.js": "https://nek0meshi.github.io/tetris/static/js/main.81161916.js",
+    "static/js/787.cda612ba.chunk.js": "https://nek0meshi.github.io/tetris/static/js/787.cda612ba.chunk.js",
+    "index.html": "https://nek0meshi.github.io/tetris/index.html",
+    "main.be25325d.css.map": "https://nek0meshi.github.io/tetris/static/css/main.be25325d.css.map",
+    "main.81161916.js.map": "https://nek0meshi.github.io/tetris/static/js/main.81161916.js.map",
+    "787.cda612ba.chunk.js.map": "https://nek0meshi.github.io/tetris/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.be25325d.css",
+    "static/js/main.81161916.js"
+  ]
+}
