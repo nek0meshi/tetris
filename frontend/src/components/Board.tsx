@@ -10,7 +10,7 @@ const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
 
 function Board() {
-  const { tiles, fallingBlock, nextStep, move, fall } = useBlocks(
+  const { tiles, fallingBlock, isGameOvered, nextStep, move, fall } = useBlocks(
     BOARD_WIDTH,
     BOARD_HEIGHT
   );
@@ -38,8 +38,6 @@ function Board() {
       {createLine(i)}
     </div>
   ));
-
-  const isGameOvered = false;
 
   return (
     <div className="Board">
