@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { MoveType } from '../features/blocks';
+import { MoveType } from '../features/blocks/blocks-types';
 
 const useKeyHandler = (
   nextStep: () => void,
@@ -9,15 +9,18 @@ const useKeyHandler = (
   const refNextStep = useRef(nextStep);
   const refMove = useRef(move);
   const refFall = useRef(fall);
+
   useEffect(() => {
     refNextStep.current = nextStep;
-  }, [nextStep]);
+  }, [refNextStep, nextStep]);
+
   useEffect(() => {
     refMove.current = move;
-  }, [move]);
+  }, [refMove, move]);
+
   useEffect(() => {
     refFall.current = fall;
-  }, [fall]);
+  }, [refFall, fall]);
 
   useEffect(() => {
     const keyEventHandler = (e: KeyboardEvent) => {

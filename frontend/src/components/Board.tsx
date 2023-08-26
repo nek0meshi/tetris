@@ -1,10 +1,11 @@
 import GameOver from './GameOver';
 import Tile from './Tile';
 import './Board.scss';
-import { COLOR_NAME, getTiles } from '../features/blocks';
+import { getTiles } from '../features/blocks';
 import useBlocks from '../hooks/useBlocks';
 import useTimer from '../hooks/useTimer';
 import useKeyHandler from '../hooks/useKeyHandler';
+import { COLOR_NAME } from '../features/blocks/blocks-constants';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;

@@ -1,3 +1,4 @@
+import { Turn } from './blocks-types';
 import * as block from './index';
 
 test('turnOnce', () => {
@@ -25,15 +26,7 @@ test('turnOnce', () => {
 });
 
 test('turn', () => {
-  const dataSet: [
-    number,
-    number,
-    number,
-    number,
-    block.Turn,
-    number,
-    number
-  ][] = [
+  const dataSet: [number, number, number, number, Turn, number, number][] = [
     // turnが0の場合
     [1, 1, 0, 0, 0, 1, 1],
     [-1, -1, 0, 0, 0, -1, -1],

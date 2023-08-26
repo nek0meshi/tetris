@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import {
-  Block,
-  MoveType,
   getNextBlock,
   moveBlock,
   getCompletedRows,
   deleteRows,
-  Tile,
   getTiles,
 } from '../features/blocks';
+import { Block, MoveType, Tile } from '../features/blocks/blocks-types';
 
 const useBlocks = (boardWidth: number, boardHeight: number) => {
   const [tiles, setTiles] = useState<Tile[]>([]);
