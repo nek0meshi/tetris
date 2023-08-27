@@ -17,8 +17,10 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
-  rules: {},
+  plugins: ['react', '@typescript-eslint', 'deprecation'],
+  rules: {
+    'deprecation/deprecation': 2,
+  },
   overrides: [
     {
       files: ['.eslintrc.js'],
