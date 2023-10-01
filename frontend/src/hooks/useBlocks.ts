@@ -13,6 +13,7 @@ import {
 const useBlocks = (boardWidth: number, boardHeight: number) => {
   const [tiles, setTiles] = useState<Tile[]>([]);
   const [fallingBlock, setFallingBlock] = useState<Block | null>(null);
+  const [isGameOvered, setIsGameOvered] = useState(false);
 
   const nextStep = () => {
     const movedBlock = getNextBlock(
@@ -32,6 +33,13 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
       }
 
       setTiles(nextTiles);
+    }
+
+    if (
+      movedBlock !== null &&
+      Math.max(...tiles.map(({ y }) => y)) >= boardHeight
+    ) {
+      setIsGameOvered(true);
     }
 
     setFallingBlock(movedBlock);
@@ -82,6 +90,7 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
   return {
     tiles,
     fallingBlock,
+    isGameOvered,
     nextStep,
     move,
     fall,
