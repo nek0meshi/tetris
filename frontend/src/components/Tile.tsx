@@ -1,7 +1,15 @@
+import { useMemo } from 'react';
 import './Tile.scss';
 
-function Tile(props: { classNames?: string[] }) {
-  const className = ['Tile', ...(props.classNames || [])].join(' ');
+type Props = {
+  classNames?: string[];
+};
+
+function Tile({ classNames = [] }: Props) {
+  const className = useMemo(
+    () => ['Tile', ...(classNames || [])].join(' '),
+    [classNames]
+  );
 
   return <div className={className}></div>;
 }

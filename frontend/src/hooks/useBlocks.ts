@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   getNextBlock,
   moveBlock,
@@ -13,7 +13,7 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
   const [fallingBlock, setFallingBlock] = useState<Block | null>(null);
   const [isGameOvered, setIsGameOvered] = useState(false);
 
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     const movedBlock = getNextBlock(
       fallingBlock,
       boardWidth,
@@ -41,22 +41,25 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
     }
 
     setFallingBlock(movedBlock);
-  };
+  }, [boardWidth, boardHeight, fallingBlock, tiles]);
 
-  const move = (m: MoveType) => {
-    if (fallingBlock === null) {
-      return;
-    }
+  const move = useCallback(
+    (m: MoveType) => {
+      if (fallingBlock === null) {
+        return;
+      }
 
-    setFallingBlock(
-      moveBlock(fallingBlock, m, boardWidth, tiles) || fallingBlock
-    );
-  };
+      setFallingBlock(
+        moveBlock(fallingBlock, m, boardWidth, tiles) || fallingBlock
+      );
+    },
+    [boardWidth, fallingBlock, tiles]
+  );
 
   /**
    * 最下層までブロックを落とす.
    */
-  const fall = () => {
+  const fall = useCallback(() => {
     if (fallingBlock === null) {
       return;
     }
@@ -83,7 +86,7 @@ const useBlocks = (boardWidth: number, boardHeight: number) => {
     }
 
     setFallingBlock(currentBlock);
-  };
+  }, [boardWidth, boardHeight, fallingBlock, setFallingBlock, tiles]);
 
   return {
     tiles,

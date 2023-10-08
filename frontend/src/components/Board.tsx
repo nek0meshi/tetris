@@ -6,6 +6,7 @@ import useBlocks from '../hooks/useBlocks';
 import useTimer from '../hooks/useTimer';
 import useKeyHandler from '../hooks/useKeyHandler';
 import { COLOR_NAME } from '../features/blocks/blocks-constants';
+import { useCallback, useMemo } from 'react';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 25;
@@ -20,25 +21,37 @@ function Board() {
 
   useKeyHandler(nextStep, move, fall);
 
-  const tilesOnBoard = [
-    ...tiles,
-    ...(fallingBlock === null ? [] : getTiles(fallingBlock)),
-  ];
-  const createTile = (x: number, y: number) => {
-    const blockType = tilesOnBoard.find(
-      (tile) => tile.x === x && tile.y === y
-    )?.type;
-    const classNames = [blockType ? COLOR_NAME[blockType] : ''];
+  const tilesOnBoard = useMemo(
+    () => [...tiles, ...(fallingBlock === null ? [] : getTiles(fallingBlock))],
+    [fallingBlock, tiles]
+  );
 
-    return <Tile key={y + BOARD_WIDTH * x} classNames={classNames} />;
-  };
-  const createLine = (i: number) =>
-    [...Array(BOARD_WIDTH).keys()].map((j) => createTile(j, i));
-  const lines = [...Array(BOARD_HEIGHT).keys()].map((i) => (
-    <div className="TileLine" key={i}>
-      {createLine(i)}
-    </div>
-  ));
+  const createTile = useCallback(
+    (x: number, y: number) => {
+      const blockType = tilesOnBoard.find(
+        (tile) => tile.x === x && tile.y === y
+      )?.type;
+      const classNames = [blockType ? COLOR_NAME[blockType] : ''];
+
+      return <Tile key={y + BOARD_WIDTH * x} classNames={classNames} />;
+    },
+    [tilesOnBoard]
+  );
+
+  const createLine = useCallback(
+    (i: number) => [...Array(BOARD_WIDTH).keys()].map((j) => createTile(j, i)),
+    [createTile]
+  );
+
+  const lines = useMemo(
+    () =>
+      [...Array(BOARD_HEIGHT).keys()].map((i) => (
+        <div className="TileLine" key={i}>
+          {createLine(i)}
+        </div>
+      )),
+    [createLine]
+  );
 
   return (
     <div className="Board">
