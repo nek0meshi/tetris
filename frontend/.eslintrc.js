@@ -6,16 +6,21 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
+    project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
-  rules: {},
+  plugins: ['react', '@typescript-eslint', 'deprecation'],
+  rules: {
+    'deprecation/deprecation': 2,
+  },
   overrides: [
     {
       files: ['.eslintrc.js'],
@@ -31,4 +36,10 @@ module.exports = {
       },
     },
   ],
+  root: true,
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };

@@ -1,121 +1,5 @@
-export type BlockType = 'i' | 'o' | 's' | 'z' | 'j' | 'l' | 't';
-
-export type Block = {
-  x: number;
-  y: number;
-  turn: Turn;
-  type: BlockType;
-};
-
-export type Tile = {
-  x: number;
-  y: number;
-  type: BlockType;
-};
-
-export type BlockShapeType = Readonly<{
-  [key in BlockType]: Readonly<{
-    tiles: Readonly<
-      [
-        Readonly<[number, number]>,
-        Readonly<[number, number]>,
-        Readonly<[number, number]>,
-        Readonly<[number, number]>
-      ]
-    >;
-    center: Readonly<[number, number]>;
-  }>;
-}>;
-
-export type MoveType = 'left' | 'right' | 'turn';
-
-export type Turn = 0 | 1 | 2 | 3;
-
-export const BLOCK_TYPES: Readonly<BlockType[]> = [
-  'i',
-  'o',
-  's',
-  'z',
-  'j',
-  'l',
-  't',
-];
-
-export const BLOCK_SHAPES: BlockShapeType = {
-  i: {
-    tiles: [
-      [0, 0],
-      [1, 0],
-      [2, 0],
-      [3, 0],
-    ],
-    center: [1.5, 0.5],
-  },
-  o: {
-    tiles: [
-      [0, 0],
-      [0, 1],
-      [1, 0],
-      [1, 1],
-    ],
-    center: [0.5, 0.5],
-  },
-  s: {
-    tiles: [
-      [0, 0],
-      [1, 0],
-      [1, 1],
-      [2, 1],
-    ],
-    center: [1, 0],
-  },
-  z: {
-    tiles: [
-      [0, 1],
-      [1, 0],
-      [1, 1],
-      [2, 0],
-    ],
-    center: [1, 0],
-  },
-  j: {
-    tiles: [
-      [0, 0],
-      [1, 0],
-      [2, 0],
-      [2, 1],
-    ],
-    center: [1, 0],
-  },
-  l: {
-    tiles: [
-      [0, 0],
-      [0, 1],
-      [1, 0],
-      [2, 0],
-    ],
-    center: [1, 0],
-  },
-  t: {
-    tiles: [
-      [0, 0],
-      [1, 0],
-      [1, 1],
-      [2, 0],
-    ],
-    center: [1, 0],
-  },
-} as const;
-
-export const COLOR_NAME = {
-  i: 'block-type-i',
-  o: 'block-type-o',
-  s: 'block-type-s',
-  z: 'block-type-z',
-  j: 'block-type-j',
-  l: 'block-type-l',
-  t: 'block-type-t',
-} as const;
+import { BLOCK_SHAPES, BLOCK_TYPES } from './blocks-constants';
+import { Block, MoveType, Tile, Turn } from './blocks-types';
 
 export const getTiles = (block: Block): Tile[] => {
   const blockShape = BLOCK_SHAPES[block.type];
@@ -243,18 +127,24 @@ export const moveBlock = (
   return movedBlock;
 };
 
+/**
+ * tilesの内、完成している行の行番号一覧を返す.
+ */
 export const getCompletedRows = (
   tiles: Tile[],
   boardWidth: number
 ): number[] => {
-  // 行一覧
   return (
+    // 行一覧
     Array.from(new Set(tiles.map(({ y }) => y)))
       // 行のブロック数 = 列数
       .filter((y) => tiles.filter((tile) => tile.y === y).length === boardWidth)
   );
 };
 
+/**
+ * tilesからrowsの行を除去した結果を返す.
+ */
 export const deleteRows = (tiles: Tile[], rows: number[]): Tile[] => {
   return (
     tiles

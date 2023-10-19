@@ -1,8 +1,9 @@
 .Board {
+  position: relative;
   width: 240px;
-}
 
-.lines-container {
-  display: flex;
-  flex-direction: column-reverse;
+  .lines-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
